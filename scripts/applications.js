@@ -50,3 +50,9 @@
     }
   });
 })();
+
+
+// applications.js
+export function getDateEle() {
+  return document.getElementById("dateTime");
+}
