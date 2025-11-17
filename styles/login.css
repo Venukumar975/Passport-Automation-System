@@ -1,0 +1,56 @@
+body {
+    background-color: whitesmoke;
+    color: black;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#login-box1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#login-box2 {
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+#input-field{
+  padding : 0 45px;
+}
+
+#input-credentials-1 , #input-credentials-2{
+    text-align: left;
+    font-weight: 300;
+
+}
+#p-icon {
+    height: 70px;
+    width: 100px;
+}
+
+#signIn-btn{
+    box-sizing: border-box;
+    width : 400px;
+    height : 40px;
+    border-radius : 5px;
+    margin-top: 40px;
+    color : whitesmoke;
+    background-color: rgb(67, 67, 237);
+    font-weight: bold;
+    font-size :large;
+}
+
+.login {
+    height: 30px;
+    width : 400px;
+    border-radius:5px;
+    font-size: medium;
+    margin : 0px 0px;
+}
