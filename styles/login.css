@@ -47,6 +47,14 @@ body {
     font-size :large;
 }
 
+#signIn-btn:hover{
+  transition: all 0.5s;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+  transition: 0.5s ease;
+
+}
+
 .login {
     height: 30px;
     width : 400px;
