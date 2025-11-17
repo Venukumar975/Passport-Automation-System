@@ -163,25 +163,48 @@ body {
 .btn.outline { background: transparent; border: 1px solid rgba(0,0,0,0.08); }
 
 .tabs {
+  position: relative;           
   display: flex;
-  background-color: rgb(209, 207, 207);
   gap: 10px;
   margin: 20px 0;
-  box-shadow: 0 0 2px black;
-  width : 25vw;
-  color : rgb(100, 97, 97);
-  padding : 1px 1px;
-  border-radius : 6px;
+  padding: 0;
+  border-radius: 6px;
+  font-size: large;
+  font-weight: bold;
+  background: var(--card);       /* light card background */
+  box-shadow: 0px 10px 22px rgba(6, 6, 6, 0.08); /* subtle shadow */
+     
 }
+
 .tabs button {
+  flex: 1;                       
   padding: 10px 14px;
   border-radius: 8px;
-  border: 1px solid transparent;
-  background: transparent;
+  border: 3px solid transparent;
+  background: transparent;       
   cursor: pointer;
+  color: #646161;                
+  position: relative;
+  transition: all 0.3s ease;   /* includes color, bg, border transitions */
 }
-.tabs button.active { background: var(--card); border-color: rgba(0,0,0,0.06); }
 
+.tabs button.active {
+  color: #000; 
+  background: var(--card); 
+  border-color: rgba(0,0,0,0.06); 
+  border : 3px solid gray;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background: #0b5fff;          
+  border-radius: 2px;
+  transition: all 0.3s ease;    
+}
 
 /* --------------------------------------------------
    6) Cards (application items)
