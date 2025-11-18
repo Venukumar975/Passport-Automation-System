@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import '../../styles/applications.css';
-import Header from '../components/Header.jsx';
+import Header from './Header.jsx';
 
 
 const SAMPLE = [
