@@ -7,10 +7,19 @@ const router = express.Router();
 // GET /api/auth/exists?user=<usernameOrEmail>
 router.get('/exists', async (req, res) => {
   const userq = String(req.query.user || '').trim();
-  if (!userq) return res.status(400).json({ ok: false, message: 'missing user' });
+  if (!userq){
+     return res.status(400).json(
+        { 
+            ok: false, 
+            message: 'missing user' 
+        }
+    );
+  }
   try {
     const [rows] = await db.query('SELECT * FROM users WHERE username = ? OR email = ? LIMIT 1', [userq, userq]);
-    if (!rows || rows.length === 0) return res.json({ ok: true, exists: false });
+    if (!rows || rows.length === 0) {
+        return res.json({ ok: true, exists: false });
+    }
     const u = rows[0];
     return res.json({ ok: true, exists: true, hasStored: !!(u.password || u.password_hash) });
   } catch (err) {

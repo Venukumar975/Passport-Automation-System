@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../../styles/login.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -15,9 +14,16 @@ export default function LoginPage() {
     try {
       const resp = await fetch('http://localhost:3001/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username.trim(), password }),
-      });
+        headers: { 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(
+          { username: username.trim(), 
+            password 
+          }
+        ),
+      }
+    );
 
       const data = await resp.json();
 
@@ -27,9 +33,10 @@ export default function LoginPage() {
         setLoading(false);
         return;
       }
-
-      // Login success — navigate to applications page
-      navigate('/applications');
+      else{            // Login success — navigate to applications page
+         navigate('/applications');
+      }
+      
     } catch (err) {
       console.error('Login request failed', err);
       alert('Login failed — please try again');
