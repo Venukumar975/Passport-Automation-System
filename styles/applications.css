@@ -179,7 +179,7 @@ body {
   font-size: large;
   font-weight: bold;
   background: var(--card);       /* light card background */
-  box-shadow: 0px 10px 20px rgb(164, 156, 156); /* subtle shadow */
+  box-shadow: 10px 0px 20px rgb(164, 156, 156); /* subtle shadow */
      
 }
 
