@@ -28,7 +28,7 @@ export default function Applications() {
 
   return (
     <div className="app-page">
-      <Header showClock={true} userName={"ksoawm"} />
+      <Header showClock={true} userName={"User"} />
 
       <main className="container">
         <div className="top-row">

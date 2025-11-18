@@ -29,6 +29,8 @@ body {
 #input-credentials-1 , #input-credentials-2{
     text-align: left;
     font-weight: 300;
+    margin: 0;
+    padding-top: 10px;
 
 }
 #p-icon {
@@ -64,13 +66,14 @@ body {
 
 .login {
     height: 36px;
+    box-sizing: border-box;
     width : 100%;
     max-width: 400px;
     border-radius:5px;
     font-size: medium;
-    margin : 0px 0px;
     padding: 6px 8px;
     border: 1px solid var(--border);
     background: var(--card);
     color: var(--text);
+    margin-top: 0px;
 }

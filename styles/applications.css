@@ -27,6 +27,18 @@
   --danger: #ef4444;
   --purple: #8b5cf6;
   --border: rgba(0,0,0,0.06);
+  /* shadows and UI tokens */
+  --shadow: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-strong: 0 10px 30px rgba(0,0,0,0.08);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+  --search-shadow: 10px 10px 30px rgba(0,0,0,0.06);
+  --logo-border: rgba(0,0,0,0.12);
+  --tab-shadow: 0 10px 22px rgba(0,0,0,0.08);
+  --tab-text: #3c3737;
+  --tab-active-border: rgba(0,0,0,0.06);
+  --scroll-thumb: rgba(0,0,0,0.12);
+  --btn-primary-border: rgba(0,0,0,0.12);
+  --badge-muted: rgba(0,0,0,0.06);
 }
 
 :root.dark {
@@ -41,6 +53,17 @@
   --danger: #fb7185;
   --purple: #a78bfa;
   --border: rgba(255,255,255,0.06);
+  --shadow: 0 2px 8px rgba(0,0,0,0.45);
+  --shadow-strong: 0 10px 30px rgba(0,0,0,0.45);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.6);
+  --search-shadow: 10px 10px 30px rgba(0,0,0,0.35);
+  --logo-border: rgba(255,255,255,0.08);
+  --tab-shadow: 0 10px 22px rgba(255,255,255,0.03);
+  --tab-text: var(--muted);
+  --tab-active-border: rgba(255,255,255,0.06);
+  --scroll-thumb: rgba(255,255,255,0.12);
+  --btn-primary-border: rgba(255,255,255,0.12);
+  --badge-muted: rgba(255,255,255,0.06);
 }
 
 
@@ -95,8 +118,8 @@ body {
   place-items: center;
   font-weight: 700;
   border-radius: 8px;
-  border : 2px solid grey;
-  box-shadow: 0px 10px 30px rgba(9, 9, 9, 0.08);
+  border: 2px solid var(--logo-border);
+  box-shadow: var(--shadow-strong);
 }
 .logo img {
   width: 100%;
@@ -151,9 +174,9 @@ body {
 .search {
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid #e6e9ef;
+  border: 1px solid var(--border);
   min-width: 300px;
-  box-shadow: 10px 10px 30px rgb(33, 31, 31);
+  box-shadow: 0px 0 35px rgb(141, 135, 135);
 }
 
 .btn {
@@ -165,7 +188,7 @@ body {
 .btn.primary { 
   background: var(--primary); 
   color: #fff; 
-  border : 2px solid black;
+  border: 2px solid var(--btn-primary-border);
 }
 .btn.outline { background: transparent; border: 1px solid var(--border); }
 
@@ -179,7 +202,7 @@ body {
   font-size: large;
   font-weight: bold;
   background: var(--card);       /* light card background */
-  box-shadow: 10px 0px 20px rgb(164, 156, 156); /* subtle shadow */
+  box-shadow:  10px 0 20px rgb(125, 119, 119); /* subtle shadow */
      
 }
 
@@ -188,9 +211,9 @@ body {
   padding: 10px 14px;
   border-radius: 8px;
   border: 3px solid transparent;
-  background: transparent;       
+  background:transparent;       
   cursor: pointer;
-  color: #3c3737;                
+  color: var(--tab-text);
   position: relative;
   transition: all 0.3s ease;   /* includes color, bg, border transitions */
 }
@@ -198,7 +221,7 @@ body {
 .tabs button.active {
   color: var(--text);
   background: var(--card);
-  border-color: rgb(69, 67, 67);
+  border-color: rgb(103, 98, 98);
 }
 
 .tab-indicator {
@@ -215,20 +238,43 @@ body {
 /* --------------------------------------------------
    6) Cards (application items)
    -------------------------------------------------- */
+/* Cards grid: responsive multi-column grid with vertical scrolling */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 18px;
+  max-height: calc(100vh - 320px); /* leave space for header and other UI */
+  overflow-y: auto;
+  padding: 20px;
+  width: 100%;
+  border-radius: 8px;
+  background: transparent;
+}
+
+/* Custom scrollbar (WebKit) */
+.cards-grid::-webkit-scrollbar { width: 12px; }
+.cards-grid::-webkit-scrollbar-track { background: transparent; }
+.cards-grid::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 8px; }
+.cards-grid::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.18); }
+/* Firefox-only scrollbar settings (apply only when supported) */
+@supports (scrollbar-width: thin) {
+  .cards-grid { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) transparent; }
 }
 
 .app-card {
   background: var(--card);
   padding: 18px;
+  width: 100%;
   border-radius: 12px;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.02);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   gap: 10px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.app-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
 }
 
 .card-top { display: flex; justify-content: space-between; align-items: center; }
@@ -245,7 +291,7 @@ body {
    7) Badges
    -------------------------------------------------- */
 .badge { padding: 6px 10px; border-radius: 999px; font-size: 12px; }
-.badge.gray { background: rgba(0,0,0,0.06); }
+.badge.gray { background: var(--badge-muted); }
 .badge.purple { background: var(--purple); color: white; }
 .badge.green { background: var(--success); color: rgba(0,0,0,0.9); }
 .badge.blue { background: #60a5fa; color: white; }
