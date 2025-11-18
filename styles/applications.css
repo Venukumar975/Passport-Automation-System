@@ -26,6 +26,7 @@
   --success: #16a34a;
   --danger: #ef4444;
   --purple: #8b5cf6;
+  --border: rgba(0,0,0,0.06);
 }
 
 :root.dark {
@@ -39,6 +40,7 @@
   --success: #22c55e;
   --danger: #fb7185;
   --purple: #a78bfa;
+  --border: rgba(255,255,255,0.06);
 }
 
 
@@ -74,7 +76,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
-  border-bottom: 3px solid rgba(0,0,0,0.06);
+  border-bottom: 3px solid var(--border);
 }
 
 .brand {
@@ -110,7 +112,7 @@ body {
 .header-actions { display: flex; gap: 10px; align-items: center; }
 .icon-btn {
   background: transparent;
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
@@ -118,7 +120,7 @@ body {
 .user-pill {
   padding: 8px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
 }
 
 
@@ -150,7 +152,7 @@ body {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #e6e9ef;
-  min-width: 220px;
+  min-width: 300px;
 }
 
 .btn {
@@ -160,7 +162,7 @@ body {
   cursor: pointer;
 }
 .btn.primary { background: var(--primary); color: #fff; }
-.btn.outline { background: transparent; border: 1px solid rgba(0,0,0,0.08); }
+.btn.outline { background: transparent; border: 1px solid var(--border); }
 
 .tabs {
   position: relative;           
@@ -189,10 +191,9 @@ body {
 }
 
 .tabs button.active {
-  color: #000; 
-  background: var(--card); 
-  border-color: rgba(0,0,0,0.06); 
-  border : 3px solid gray;
+  color: var(--text);
+  background: var(--card);
+  border-color: var(--border);
 }
 
 .tab-indicator {
@@ -201,9 +202,9 @@ body {
   left: 0;
   width: 0;
   height: 4px;
-  background: #0b5fff;          
+  background: var(--primary);
   border-radius: 2px;
-  transition: all 0.3s ease;    
+  transition: all 0.3s ease;
 }
 
 /* --------------------------------------------------

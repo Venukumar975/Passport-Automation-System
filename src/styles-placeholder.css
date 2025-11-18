@@ -1,0 +1,3 @@
+/* placeholder so Vite can bundle styles when main.jsx imports a stylesheet
+   component-level CSS files import the actual styles (login.css, applications.css)
+   This file is intentionally empty. */
