@@ -1,8 +1,8 @@
 body {
-    background-color: rgb(245, 245, 245);
-    color: black;
+    /* Use theme variables so dark mode affects the login page too */
+    background: var(--bg);
+    color: var(--text);
     font-family: "Inter", sans-serif !important;
-
 }
 
 #login-box1 {
@@ -43,12 +43,13 @@ body {
 
 #signIn-btn{
     box-sizing: border-box;
-    width : 400px;
+    width : 100%;
+    max-width: 400px;
     height : 40px;
     border-radius : 5px;
-    margin-top: 40px;
+    margin-top: 24px;
     color : whitesmoke;
-    background-color: rgb(67, 67, 237);
+    background-color: var(--primary);
     font-weight: bold;
     font-size :large;
 }
@@ -62,9 +63,14 @@ body {
 }
 
 .login {
-    height: 30px;
-    width : 400px;
+    height: 36px;
+    width : 100%;
+    max-width: 400px;
     border-radius:5px;
     font-size: medium;
     margin : 0px 0px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
 }

@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import '../../styles/applications.css';
-import '../../styles/login.css';
-import Header from '../components/Header';
+import Header from '../components/Header.jsx';
+
+
 const SAMPLE = [
   { id: 'REQ-2024-00123', applicant: 'John Doe', status: 'VERIFIED', submittedAt: '15/1/2024' },
   { id: 'REQ-2024-00098', applicant: 'Jane Roe', status: 'APPROVED', submittedAt: '20/12/2023' },

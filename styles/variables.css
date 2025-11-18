@@ -1,0 +1,27 @@
+:root {
+  /* Light theme tokens */
+  --bg: whitesmoke;
+  --text: #111827;
+  --muted: #6b7280;
+  --card: #f8fafc;
+
+  --primary: #0b5fff;
+  --success: #16a34a;
+  --danger: #ef4444;
+  --purple: #8b5cf6;
+  --border: rgba(0,0,0,0.06);
+}
+
+:root.dark {
+  /* Dark theme overrides */
+  --bg: #0b1220;
+  --text: #e6eef8;
+  --muted: #9aa9bf;
+  --card: #0f1724;
+
+  --primary: #2563eb;
+  --success: #22c55e;
+  --danger: #fb7185;
+  --purple: #a78bfa;
+  --border: rgba(255,255,255,0.06);
+}

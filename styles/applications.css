@@ -153,6 +153,7 @@ body {
   border-radius: 10px;
   border: 1px solid #e6e9ef;
   min-width: 300px;
+  box-shadow: 10px 10px 30px rgb(33, 31, 31);
 }
 
 .btn {
@@ -161,7 +162,11 @@ body {
   border: 0;
   cursor: pointer;
 }
-.btn.primary { background: var(--primary); color: #fff; }
+.btn.primary { 
+  background: var(--primary); 
+  color: #fff; 
+  border : 2px solid black;
+}
 .btn.outline { background: transparent; border: 1px solid var(--border); }
 
 .tabs {
@@ -174,7 +179,7 @@ body {
   font-size: large;
   font-weight: bold;
   background: var(--card);       /* light card background */
-  box-shadow: 0px 10px 22px rgba(6, 6, 6, 0.08); /* subtle shadow */
+  box-shadow: 0px 10px 20px rgb(164, 156, 156); /* subtle shadow */
      
 }
 
@@ -185,7 +190,7 @@ body {
   border: 3px solid transparent;
   background: transparent;       
   cursor: pointer;
-  color: #646161;                
+  color: #3c3737;                
   position: relative;
   transition: all 0.3s ease;   /* includes color, bg, border transitions */
 }
@@ -193,7 +198,7 @@ body {
 .tabs button.active {
   color: var(--text);
   background: var(--card);
-  border-color: var(--border);
+  border-color: rgb(69, 67, 67);
 }
 
 .tab-indicator {
