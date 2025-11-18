@@ -16,7 +16,7 @@ body {
     width: 90%;
     max-width: 500px;
     padding: 30px;
-    background: white;
+    background-color:  var(--bg, #f7f7fb);
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     text-align: center;

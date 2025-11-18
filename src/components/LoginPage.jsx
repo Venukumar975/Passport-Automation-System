@@ -1,15 +1,41 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import '../../styles/login.css';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-    // Basic client-side validation could be added here
-    // For prototype simply navigate to applications page
-    navigate('/applications');
+    setLoading(true);
+
+    try {
+      const resp = await fetch('http://localhost:3001/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username.trim(), password }),
+      });
+
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        const msg = data && data.message ? data.message : 'Invalid credentials';
+        alert(msg);
+        setLoading(false);
+        return;
+      }
+
+      // Login success — navigate to applications page
+      navigate('/applications');
+    } catch (err) {
+      console.error('Login request failed', err);
+      alert('Login failed — please try again');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -24,18 +50,34 @@ export default function LoginPage() {
         <div id="input-field">
           <form id="login-form" onSubmit={onSubmit}>
             <h3 id="input-credentials-1">Username / Email</h3>
-            <input className="login" name="username" type="text" placeholder="Enter your username" required />
+            <input
+              className="login"
+              name="username"
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
 
             <h3 id="input-credentials-2">Password</h3>
-            <input className="login" name="password" type="password" placeholder="Enter your password" required />
+            <input
+              className="login"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
             <div className="login-actions" style={{ marginTop: 18 }}>
-              <button type="submit" id="signIn-btn">Sign In</button>
+              <button type="submit" id="signIn-btn" disabled={loading}>{loading ? 'Signing in…' : 'Sign In'}</button>
             </div>
           </form>
         </div>
 
-        <p>Don't have an account? <a href="#">Register here</a></p>
+        <p>Don't have an account? <Link to="/register">Register here</Link></p>
       </div>
     </main>
   );

@@ -1,0 +1,121 @@
+/* Simple registration styles kept separate as requested */
+.reg-root {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--bg, #f7f7fb);
+  color: var(--text, #111);
+  font-family: Inter, system-ui, sans-serif;
+  padding: 24px;
+}
+.reg-card {
+  width: 90%;
+  max-width: 500px; /* match login box */
+  padding: 30px; /* match login box */
+  background: var(--bg, #f7f7fb);
+  border-radius: 12px; /* match login box */
+  box-shadow: 0 0 10px rgba(0,0,0,0.2); /* match login effect */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left; /* left-align form labels/inputs for readability */
+  font-size: 16px; /* base readable font size */
+  color: var(--text, #111);
+}
+.reg-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  text-align: center;
+}
+
+.reg-card label {
+  display: block;
+  font-size: 15px;
+  color: var(--muted, #6b7280);
+  margin-top: 6px;
+}
+
+.reg-card input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border, rgba(0,0,0,0.08));
+  font-size: 16px;
+  color: var(--text);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reg-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reg-actions .reg-link {
+  background: transparent;
+  border: none;
+  color: var(--primary, #0b5fff);
+  cursor: pointer;
+  padding: 8px;
+}
+.reg-error { background: rgba(255,0,0,0.06); color: #a00; padding: 8px; border-radius: 6px; }
+
+/* Brand area with passport icon similar to login page */
+.reg-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 8px;
+  flex-direction: column;
+}
+
+.reg-brand h2 {
+  margin-top: 6px;
+  font-size: 20px;
+}
+
+.reg-icon {
+  width: 96px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 2px solid var(--logo-border, rgba(0,0,0,0.12));
+  box-shadow: var(--shadow-strong, 0 10px 30px rgba(0,0,0,0.08));
+}
+
+/* Primary button style */
+.reg-primary {
+  background: var(--primary, #0b5fff);
+  color: #fff;
+  border: 2px solid var(--btn-primary-border, rgba(0,0,0,0.12));
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  flex: 1;
+}
+.reg-primary:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.reg-primary:hover:not(:disabled) {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* link-style button */
+.reg-link {
+  background: transparent;
+  border: none;
+  color: var(--primary, #0b5fff);
+  cursor: pointer;
+  padding: 8px;
+}
+
+@media (max-width: 640px){
+  .reg-card { padding: 16px; }
+}
