@@ -5,6 +5,8 @@ import App from './App.jsx'
 import '../styles/variables.css'
 import '../styles/applications.css'
 import '../styles/login.css'
+import '../styles/newapplication.css'
+
 
 const root = createRoot(document.getElementById('root'))
 root.render(

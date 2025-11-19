@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import '../../styles/applications.css';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header.jsx';
 
 
@@ -10,6 +10,7 @@ const SAMPLE = [
 ];
 
 export default function Applications() {
+  const navigate = useNavigate();
   const [apps] = useState(SAMPLE);
   const [filter, setFilter] = useState('all');
   const [q, setQ] = useState('');
@@ -39,7 +40,11 @@ export default function Applications() {
 
           <div className="actions-block">
             <input value={q} onChange={e => setQ(e.target.value)} className="search" placeholder="Search by application ID or name..." />
-            <button className="btn primary">+ New Application</button>
+            <button 
+            className="btn primary"
+            onClick={()=> navigate('/newapplication')}>
+               New Application
+               </button>
           </div>
         </div>
 
