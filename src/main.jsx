@@ -6,6 +6,8 @@ import '../styles/variables.css'
 import '../styles/applications.css'
 import '../styles/login.css'
 import '../styles/newapplication.css'
+import '../styles/docsheader.css'
+import '../styles/progressbar.css';
 
 
 const root = createRoot(document.getElementById('root'))

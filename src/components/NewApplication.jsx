@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+import DocsHeader from './DocsHeader';
+import ProgressBar from './ProgressBar';
+
 
 const NewApplication = () => {
   // Optional: Simple state management to capture inputs
@@ -10,7 +13,6 @@ const NewApplication = () => {
     dob: '',
     address: ''
   });
-  const [active,setActive] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,45 +27,16 @@ const NewApplication = () => {
     // TODO: Add your API call here
   };
 
-  function handleClick(){
-    setActive(!active);
-    setTimeout(() =>{
-        navigate('/applications');
-    },200
-
-    );
-  }
+  
 
   return (
     <>
        <Header/>
         <div className="page-container">
         <div className="content-wrapper">
+            <DocsHeader/>
+            <ProgressBar/>
             
-            {/* Back Link */}
-            <button 
-            className={active ? "back-btn active" : "back-btn"}
-            onClick={handleClick}>
-                ← Back to Dashboard
-            </button>
-
-            {/* Page Header */}
-            <div className="header-section">
-            <h1>New Passport Application</h1>
-            <p>Complete all steps to submit your application</p>
-            </div>
-
-            {/* Progress Bar */}
-            <div className="progress-section">
-            <div className="progress-labels">
-                <span className="step-current">Step 1 of 3</span>
-                <span className="step-name">Personal Details</span>
-            </div>
-            <div className="progress-track">
-                <div className="progress-fill"></div>
-            </div>
-            </div>
-
             {/* The Form Card */}
             <div className="form-card">
             <div className="card-header">

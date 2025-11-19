@@ -1,0 +1,23 @@
+/* Header & Navigation */
+.back-btn {
+  padding: 10px 18px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+
+  /* IMPORTANT */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  background: #eee;
+  transition: 0.3s;
+  box-shadow: 0px 0 10px rgb(146, 142, 142);
+}
+
+.back-btn.active {
+  background: #9e9d9d;
+  color: white;
+  transform: scale(1.0);
+}
