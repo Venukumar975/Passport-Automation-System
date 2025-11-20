@@ -5,6 +5,7 @@ import  Register  from './components/Register';
 import Applications from './components/Applications';
 import NewApplication from './components/NewApplication.jsx';
 import UploadDocs from './components/UploadDocuments.jsx';
+
 export default function App(){
 	return (
 		<BrowserRouter>

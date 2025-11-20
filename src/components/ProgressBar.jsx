@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ProgressBar(){
+export default function ProgressBar({ progress }){
     return (
         <>
             <div className="progress-section">
@@ -9,7 +9,7 @@ export default function ProgressBar(){
                         <span className="step-name">Personal Details</span>
                     </div>
                     <div className="progress-track">
-                        <div className="progress-fill"></div>
+                        <div className="progress-fill" style = {{width : `${progress}%`}}></div>
                     </div>
             </div>
 
