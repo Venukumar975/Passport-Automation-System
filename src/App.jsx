@@ -5,6 +5,10 @@ import  Register  from './components/Register';
 import Applications from './components/Applications';
 import NewApplication from './components/NewApplication.jsx';
 import UploadDocs from './components/UploadDocuments.jsx';
+import ReviewApplication from './components/ReviewApplication.jsx';
+
+import AdminDashboard from './AdminComponents/AdminDashboard.jsx';
+import AdminVerification from './AdminComponents/AdminVerification.jsx';
 
 export default function App(){
 	return (
@@ -16,6 +20,11 @@ export default function App(){
 				<Route path="/applications" element={<Applications/>} />
 				<Route path="/newapplication" element={<NewApplication/>} />
 				<Route path="/uploaddocs" element={<UploadDocs/>} />
+                <Route path="/reviewapplication" element={<ReviewApplication/>} />
+
+
+				<Route path="/admin-dashboard" element={<AdminDashboard/>} />
+				<Route path="/admin-verification" element={<AdminVerification/>} />
 
 			</Routes>
 		</BrowserRouter>

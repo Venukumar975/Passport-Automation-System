@@ -125,7 +125,11 @@ const UploadDocuments = ({ onContinue, onSaveDraft, onPrevious }) => {
                                 >
                                     <span className="save-icon">🖫</span> Save Draft
                                 </button>
-                                <button type="submit" className="btn-primary">Continue</button>
+                                <button 
+                                type="submit" 
+                                className="btn-primary"
+                                onClick={()=>navigate('/reviewapplication')}
+                                >Continue</button>
                                 </div>
                             </form>
                     </main>

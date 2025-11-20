@@ -9,6 +9,10 @@ import '../styles/newapplication.css'
 import '../styles/docsheader.css'
 import '../styles/progressbar.css';
 import '../styles/uploaddocs.css'
+import '../styles/reviewapplication.css'
+
+import '../styles/admindashboard.css';
+import '../styles/adminverification.css';
 
 const root = createRoot(document.getElementById('root'))
 root.render(
