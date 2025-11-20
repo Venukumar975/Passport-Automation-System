@@ -26,6 +26,7 @@ export default function LoginPage() {
     );
 
       const data = await resp.json();
+      const { user } = data;
 
       if (!resp.ok) {
         const msg = data && data.message ? data.message : 'Invalid credentials';
@@ -33,8 +34,15 @@ export default function LoginPage() {
         setLoading(false);
         return;
       }
-      else{            // Login success — navigate to applications page
-         navigate('/applications');
+      else{        
+        if (user.role === "admin"){
+          navigate('/admin-dashboard')
+        }
+        else{
+          // Login success — navigate to applications page
+           navigate('/applications');
+        }
+           
       }
       
     } catch (err) {

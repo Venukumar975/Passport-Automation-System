@@ -36,7 +36,7 @@ const AdminVerification = () => {
         <div className="content-wrapper admin-wrapper">
           
           {/* Top Navigation */}
-          <button className="back-link" onClick={() => navigate('/admin/dashboard')}>
+          <button className="back-link" onClick={() => navigate('/admin-dashboard')}>
             ← Back to Dashboard
           </button>
 

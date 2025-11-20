@@ -49,9 +49,31 @@ router.post('/login',
       if (!stored) return res.status(401).json({ ok: false, message: 'Invalid credentials' });
 
       const match = password === String(stored).trim();
-      if (!match) return res.status(401).json({ ok: false, message: 'Invalid credentials' });
+      if (!match){
+         return res.status(401).json({ ok: false, message: 'Invalid credentials' });
+      }
+      if(user.username === "adminlocalhost" || user.username === "admin123@gmail.com"){
+          return res.status(200).json({
+            ok : true,
+            user : {
+              id : user.id,
+              role : "admin",
+              username : user.username,
+              email : user.email
 
-      return res.json({ ok: true, user: { id: user.id, username: user.username, email: user.email } });
+            }
+          })
+        }
+      return res.json(
+        { ok: true,
+           user: { 
+            id: user.id,
+            role : "user",
+             username: user.username,
+              email: user.email 
+            }
+             }
+            );
     } catch (err) {
       console.error('login error', err);
       return res.status(500).json({ ok: false, message: process.env.NODE_ENV === 'production' ? 'server error' : err.message });
