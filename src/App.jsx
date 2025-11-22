@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import  LoginPage  from './components/LoginPage';
 import  Register  from './components/Register';
-import Applications from './components/Applications';
+import UserDashboard from './components/UserDashboard.jsx';
 import NewApplication from './components/NewApplication.jsx';
 import UploadDocs from './components/UploadDocuments.jsx';
 import ReviewApplication from './components/ReviewApplication.jsx';
@@ -17,7 +17,7 @@ export default function App(){
 				<Route path="/" element={<LoginPage/>} />
 				<Route path="/login" element={<LoginPage/>} />
 				<Route path="/register" element={<Register/>} />
-				<Route path="/applications" element={<Applications/>} />
+				<Route path="/applications" element={<UserDashboard/>} />
 				<Route path="/newapplication" element={<NewApplication/>} />
 				<Route path="/uploaddocs" element={<UploadDocs/>} />
                 <Route path="/reviewapplication" element={<ReviewApplication/>} />

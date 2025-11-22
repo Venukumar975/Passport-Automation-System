@@ -9,7 +9,7 @@ const SAMPLE = [
   { id: 'REQ-2024-00145', applicant: '', status: 'DRAFT', submittedAt: null }
 ];
 
-export default function Applications() {
+export default function UserDashboard() {
   const navigate = useNavigate();
   const [apps] = useState(SAMPLE);
   const [filter, setFilter] = useState('all');
