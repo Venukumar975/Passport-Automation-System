@@ -46,7 +46,7 @@ export default function AdminHeader() {
         <div className="admin-profile">
             <div className="avatar-initial">A</div>
             <div className="admin-info">
-                <span className="admin-name">Super Admin</span>
+                <span className="admin-name"> Admin</span>
                 <span className="admin-role">● Online</span>
             </div>
         </div>

@@ -56,4 +56,62 @@ router.post('/approve', async (req, res) => {
     }
 });
 
+// GET /api/applications/admin/all-applications
+// Fetch ALL applications for the Admin Dashboard
+router.get('/admin/all-applications', async (req, res) => {
+    try {
+        const query = `
+            SELECT 
+                application_id, 
+                full_name, 
+                application_type, 
+                application_status, 
+                submitted_at 
+            FROM applications 
+            ORDER BY submitted_at DESC
+        `;
+        
+        const [rows] = await db.query(query);
+        res.json(rows);
+    } catch (error) {
+        console.error("Admin fetch error:", error);
+        res.status(500).json({ error: "Failed to fetch applications" });
+    }
+});
+
+// GET /api/applications/admin/view/:id
+// Fetch Single Application Details for Verification
+router.get('/admin/view/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const query = `
+            SELECT 
+                application_id, 
+                full_name, 
+                date_of_birth, 
+                permanent_address, 
+                application_status, 
+                application_type, -- We added this column earlier
+                photo_file_path, 
+                pdf_file_path,
+                email -- We join with users table to get email
+            FROM applications 
+            JOIN users ON applications.user_id = users.id
+            WHERE application_id = ?
+        `;
+        
+        const [rows] = await db.query(query, [id]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "Application not found" });
+        }
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error("Error fetching application:", error);
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
 export default router;

@@ -18,7 +18,7 @@ export default function DocsHeader(){
             <button 
                 className={active ? "back-btn active" : "back-btn"}
                 onClick={handleClick}>
-                    ← Back to Dashboard
+                  <span> ← Back to Dashboard </span>  
             </button>
 
             {/* Page Header */}

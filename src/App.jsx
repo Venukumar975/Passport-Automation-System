@@ -24,7 +24,7 @@ export default function App(){
 
 
 				<Route path="/admin-dashboard" element={<AdminDashboard/>} />
-				<Route path="/admin-verification" element={<AdminVerification/>} />
+				<Route path="/admin-verification/:id" element={<AdminVerification/>} />
 
 			</Routes>
 		</BrowserRouter>

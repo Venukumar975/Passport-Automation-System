@@ -4,12 +4,11 @@ import Header from './Header';
 import DocsHeader from './DocsHeader';
 import ProgressBar from './ProgressBar';
 
+
 const NewApplication = () => {
+  // Optional: Simple state management to capture inputs
   const navigate = useNavigate();
-  
-  // 1. UPDATE STATE: Add applicationType with a default value
   const [formData, setFormData] = useState({
-    applicationType: 'New Passport', // Default matches DB
     fullName: '',
     dob: '',
     address: ''
@@ -23,16 +22,12 @@ const NewApplication = () => {
   };
  
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    
-    // Logic: Validation passed if we reached here.
+    e.preventDefault(); // Stops page refresh
     console.log('Form Data Submitted:', formData);
-    
-    // TODO: Send 'formData' to your Backend API here using fetch()
-    
-    // 2. NAVIGATE HERE: Only navigate AFTER successful submission
-    navigate('/uploaddocs');
+    // TODO: Add your API call here
   };
+
+  
 
   return (
     <>
@@ -42,41 +37,16 @@ const NewApplication = () => {
                 <DocsHeader/>
                 <ProgressBar progress={33}/>
                 
+                {/* The Form Card */}
                 <div className="form-card">
                 <div className="card-header">
                     <h2>Personal Information</h2>
                     <p>Enter your details as they appear on official documents</p>
                 </div>
 
+                {/* Actual HTML Form */}
                 <form onSubmit={handleSubmit}>
                     
-                    {/* 3. NEW DROPDOWN FIELD */}
-                    <div className="form-group">
-                        <label htmlFor="applicationType">
-                            Application Type
-                        </label>
-                        {/* Note: No 'required' needed here because it has a default value */}
-                        <select 
-                            id="applicationType"
-                            name="applicationType"
-                            value={formData.applicationType}
-                            onChange={handleChange}
-                            style={{ 
-                                width: '100%', 
-                                padding: '12px', 
-                                border: '1px solid #d1d5db', 
-                                borderRadius: '6px',
-                                backgroundColor: '#fff',
-                                fontSize: '1rem'
-                            }}
-                        >
-                            <option value="New Passport">New Passport</option>
-                            <option value="Renewal">Renewal</option>
-                            <option value="Lost/Damaged">Lost/Damaged</option>
-                            <option value="Address Change">Address Change</option>
-                        </select>
-                    </div>
-
                     {/* Full Name */}
                     <div className="form-group">
                     <label htmlFor="fullName">
@@ -89,7 +59,7 @@ const NewApplication = () => {
                         placeholder="Enter your full legal name"
                         value={formData.fullName}
                         onChange={handleChange}
-                        required // This now works because we fixed the button!
+                        required
                     />
                     </div>
 
@@ -126,14 +96,12 @@ const NewApplication = () => {
 
                     {/* Action Buttons */}
                     <div className="form-actions">
-                        <button type="button" className="btn-secondary">Save Draft</button>
-                        
-                        {/* 4. FIXED BUTTON: Removed onClick navigation */}
-                        <button 
-                            type="submit" 
-                            className="btn-primary"
-                        >
-                            Continue
+                    <button type="button" className="btn-secondary">Save Draft</button>
+                    <button 
+                    type="submit" 
+                    className="btn-primary"
+                    onClick={()=>navigate('/uploaddocs')}>
+                        Continue
                         </button>
                     </div>
 
@@ -143,6 +111,7 @@ const NewApplication = () => {
             </div>
         </div>
     </>
+    
   );
 };
 

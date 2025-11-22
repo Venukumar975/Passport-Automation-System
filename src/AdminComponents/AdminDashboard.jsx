@@ -1,44 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminHeader from "./AdminHeader.jsx"; // <--- 1. Import the new Header
-
-const MOCK_DATA = [
-  { id: "APP-2025-001", name: "John Doe", date: "2025-11-20", status: "PENDING", type: "New Passport" },
-  { id: "APP-2025-002", name: "Sarah Smith", date: "2025-11-19", status: "VERIFIED", type: "Renewal" },
-  { id: "APP-2025-003", name: "Michael Brown", date: "2025-11-18", status: "REJECTED", type: "New Passport" },
-  { id: "APP-2025-004", name: "Emily Davis", date: "2025-11-20", status: "PENDING", type: "Address Change" },
-];
+import AdminHeader from "./AdminHeader.jsx";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  
+  // 1. State to hold REAL database data
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("ALL");
 
-  // Filter logic
-  const filteredApps = MOCK_DATA.filter((app) => {
-    const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) || app.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filter === "ALL" || app.status === filter;
+  // 2. Fetch Data from Backend on Load
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/applications/admin/all-applications');
+        const data = await response.json();
+        setApplications(data);
+      } catch (error) {
+        console.error("Error loading admin data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdminData();
+  }, []);
+
+  // 3. Filter Logic (Applied to Real Data)
+  const filteredApps = applications.filter((app) => {
+    // Handle null values safely
+    const name = app.full_name || "";
+    const idString = app.application_id ? app.application_id.toString() : "";
+
+    const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          idString.includes(searchTerm.toLowerCase());
+                          
+    const matchesFilter = filter === "ALL" || app.application_status === filter;
+    
     return matchesSearch && matchesFilter;
   });
 
-  // Stats calculation
+  // 4. Stats Calculation
   const stats = {
-    total: MOCK_DATA.length,
-    pending: MOCK_DATA.filter(a => a.status === "PENDING").length,
-    verified: MOCK_DATA.filter(a => a.status === "VERIFIED").length
+    total: applications.length,
+    pending: applications.filter(a => a.application_status === "Pending").length,
+    verified: applications.filter(a => ["Approved", "Verified"].includes(a.application_status)).length
   };
+
+  // Helper to format date nicely
+  const formatDate = (isoString) => {
+    if (!isoString) return "Not Submitted";
+    return new Date(isoString).toLocaleDateString("en-GB", {
+        day: "numeric", month: "short", year: "numeric"
+    });
+  };
+
+  if (loading) return <div className="p-10 text-center">Loading Dashboard...</div>;
 
   return (
     <div className="app-page">
-      {/* 2. Use the Header Component here */}
       <AdminHeader />
 
       <div className="page-container admin-container">
         <div className="content-wrapper admin-wrapper">
           
-          {/* 3. I removed the old <div className="admin-header"> with the logout button 
-                 because it is now inside AdminHeader. 
-                 I kept just the Title for the content area. */}
           <div className="dashboard-title-section" style={{ marginBottom: '20px' }}>
              <h1>Dashboard Overview</h1>
              <p style={{ color: '#6b7280' }}>Manage and verify citizen applications</p>
@@ -60,7 +88,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Search & Filter Bar */}
+          {/* Search & Filter */}
           <div className="toolbar">
             <input 
               type="text" 
@@ -71,18 +99,18 @@ const AdminDashboard = () => {
             />
             <select className="filter-select" value={filter} onChange={(e) => setFilter(e.target.value)}>
               <option value="ALL">All Statuses</option>
-              <option value="PENDING">Pending</option>
-              <option value="VERIFIED">Verified</option>
-              <option value="REJECTED">Rejected</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
             </select>
           </div>
 
-          {/* Applications Table */}
+          {/* Real Data Table */}
           <div className="table-card">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Application ID</th>
+                  <th>ID</th>
                   <th>Applicant Name</th>
                   <th>Date Submitted</th>
                   <th>Type</th>
@@ -93,20 +121,21 @@ const AdminDashboard = () => {
               <tbody>
                 {filteredApps.length > 0 ? (
                   filteredApps.map((app) => (
-                    <tr key={app.id}>
-                      <td className="font-mono">{app.id}</td>
-                      <td className="font-bold">{app.name}</td>
-                      <td>{app.date}</td>
-                      <td>{app.type}</td>
+                    <tr key={app.application_id}>
+                      <td className="font-mono">#{app.application_id}</td>
+                      <td className="font-bold">{app.full_name}</td>
+                      <td>{formatDate(app.submitted_at)}</td>
+                      {/* This now comes from DB */}
+                      <td>{app.application_type}</td> 
                       <td>
-                        <span className={`status-badge ${app.status.toLowerCase()}`}>
-                          {app.status}
+                        <span className={`status-badge ${app.application_status ? app.application_status.toLowerCase() : 'pending'}`}>
+                          {app.application_status}
                         </span>
                       </td>
                       <td>
                         <button 
                           className="btn-table-action"
-                          onClick={() => navigate('/admin-verification')}
+                          onClick={() => navigate(`/admin-verification/${app.application_id}`)}
                         >
                           Review
                         </button>
