@@ -1,0 +1,135 @@
+/* 1. The Container */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* 2. The Trigger (The "User ▼" pill) */
+.dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: transparent;
+    border: 1px solid #e5e7eb; /* Light gray border */
+    padding: 6px 12px;
+    border-radius: 20px; /* Pill shape */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.dropdown-trigger:hover, .dropdown-trigger[aria-expanded="true"] {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+/* The Circle Avatar inside the trigger */
+.avatar-circle {
+    width: 24px;
+    height: 24px;
+    background-color: #3b82f6; /* Blue background */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* 3. The Dropdown Menu Box */
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px); /* 8px gap from button */
+    right: 0;
+    width: 240px; /* Wider for better readability */
+    background-color: white;
+    border-radius: 12px; /* Smooth rounded corners */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* Deep shadow */
+    border: 1px solid #f3f4f6;
+    overflow: hidden;
+    z-index: 1000;
+    animation: slideDown 0.15s ease-out;
+    transform-origin: top right;
+}
+
+/* 4. The Header Section ("Signed in as...") */
+.menu-header {
+    padding: 16px;
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.85rem;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.menu-header strong {
+    display: block;
+    color: #111827; /* Dark black for username */
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 5. The Items (Settings, Sign Out, etc.) */
+.menu-item {
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    background: transparent;
+    border: none; /* REMOVES DEFAULT BUTTON BORDER */
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    transition: background 0.15s;
+    font-family: inherit; /* Inherit font from app */
+}
+
+.menu-item:hover {
+    background-color: #f3f4f6;
+}
+
+/* 6. Danger Style (For Sign Out) */
+.menu-item.danger {
+    color: #dc2626; /* Red text */
+}
+
+.menu-item.danger:hover {
+    background-color: #fef2f2; /* Light red hover bg */
+}
+
+/* Dark Mode Overrides */
+:root.dark .dropdown-trigger {
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+:root.dark .dropdown-trigger:hover {
+    background-color: #374151;
+}
+:root.dark .dropdown-menu {
+    background-color: #1f2937;
+    border-color: #374151;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+:root.dark .menu-header {
+    background-color: #111827;
+    border-color: #374151;
+    color: #9ca3af;
+}
+:root.dark .menu-header strong { color: #f3f4f6; }
+:root.dark .menu-item { color: #e5e7eb; }
+:root.dark .menu-item:hover { background-color: #374151; }
+
+/* Animation */
+@keyframes slideDown {
+    from { opacity: 0; transform: scale(0.95) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}

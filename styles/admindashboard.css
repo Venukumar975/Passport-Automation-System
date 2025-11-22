@@ -8,6 +8,29 @@
   width: 95%;
 }
 
+.sub-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+#logout-btn{
+  border-radius: 5px;
+  width : 85px;
+  background-color: transparent;
+  border : 2px solid grey;
+  cursor: pointer;
+}
+
+#logout-btn:hover {
+  border-color: #333;
+  color: #333;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Active state (When user actually clicks) */
+#logout-btn:active {
+  transform: scale(0.95); /* Shrinks slightly to 95% size */
+}
 /* Header */
 .admin-header {
   margin-bottom: 24px;

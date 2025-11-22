@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import UserDropdown from './UserDropdown'; // <--- Import the new component
 
-export default function Header({ title = 'Passport Services', subtitle = 'Official Portal', showClock = false, userName = 'User' }) {
-    
-    // ... (Keep your existing dark mode and clock logic here) ...
+/**
+ * Reusable Header component
+ * Props:
+ * - title: main title text (default: 'Passport Services')
+ * - subtitle: small subtitle (default: 'Official Portal')
+ * - showClock: boolean to show live date/time in header (default: false)
+ * - userName: string to display in the user pill
+ */
+export default function Header({ title = 'Passport Services', subtitle = 'Official Portal', showClock = false, userName = 'user' }) {
     const [dark, setDark] = useState(() => {
         try { return localStorage.getItem('pa_dark') === '1'; } catch { return false; }
     });
+
     const [now, setNow] = useState(() => new Date());
 
     useEffect(() => {
+        // Apply theme
         document.documentElement.classList.toggle('dark', dark);
         try { localStorage.setItem('pa_dark', dark ? '1' : '0'); } catch (e) {}
     }, [dark]);
@@ -21,7 +28,10 @@ export default function Header({ title = 'Passport Services', subtitle = 'Offici
     }, [showClock]);
 
     function toggleDark() { setDark(d => !d); }
-    function formatDate(d) { return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }); }
+
+    function formatDate(d) {
+        return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+    }
 
     return (
         <header className="app-header">
@@ -36,14 +46,9 @@ export default function Header({ title = 'Passport Services', subtitle = 'Offici
             </div>
 
             <div className="header-actions">
-                {showClock && <div aria-live="polite" style={{ marginRight: 16, fontSize: '0.9rem', color: 'gray' }}>{formatDate(now)}</div>}
-                
-                <button onClick={toggleDark} id="mode-toggle" className="icon-btn" style={{ marginRight: 12 }}>
-                    {dark ? '🌙' : '☀️'}
-                </button>
-
-                {/* --- NEW DROPDOWN COMPONENT --- */}
-                <UserDropdown userName={userName} />
+                {showClock && <div aria-live="polite" style={{ marginRight: 8 }}>{formatDate(now)}</div>}
+                <button onClick={toggleDark} id="mode-toggle" className="icon-btn" aria-pressed={dark} title="Toggle color mode">{dark ? '🌙' : '☀️'}</button>
+                <div className="user-pill">{userName} ▾</div>
             </div>
         </header>
     );

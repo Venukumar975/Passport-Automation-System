@@ -10,7 +10,7 @@ import '../styles/docsheader.css'
 import '../styles/progressbar.css';
 import '../styles/uploaddocs.css'
 import '../styles/reviewapplication.css'
-
+import '../styles/userdropdown.css'
 import '../styles/admindashboard.css';
 import '../styles/adminverification.css';
 

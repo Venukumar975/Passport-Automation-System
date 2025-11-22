@@ -9,17 +9,19 @@ const MOCK_DATA = [
   { id: "APP-2025-004", name: "Emily Davis", date: "2025-11-20", status: "PENDING", type: "Address Change" },
 ];
 
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("ALL");
-
   // Filter logic
   const filteredApps = MOCK_DATA.filter((app) => {
     const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) || app.id.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filter === "ALL" || app.status === filter;
     return matchesSearch && matchesFilter;
   });
+
+
 
   // Stats calculation
   const stats = {
@@ -35,7 +37,12 @@ const AdminDashboard = () => {
         <div className="content-wrapper admin-wrapper">
           
           <div className="admin-header">
-            <h1>Dashboard</h1>
+            <div className="sub-header">
+                <h1>Dashboard</h1>
+                <button id = "logout-btn" onClick={()=>{navigate('/')}}>
+                  Logout
+                </button>
+            </div>
             <p>Manage and verify citizen applications</p>
           </div>
 
