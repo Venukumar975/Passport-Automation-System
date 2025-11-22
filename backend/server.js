@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
+app.use('/uploads', express.static('uploads'));
 // 3. Session Configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'replace_this_with_a_long_random_string',

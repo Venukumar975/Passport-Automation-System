@@ -15,7 +15,7 @@ const NewApplication = () => {
     address: ''
   });
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -25,13 +25,8 @@ const NewApplication = () => {
   const handleSubmit = (e) => {
     e.preventDefault(); 
     
-    // Logic: Validation passed if we reached here.
-    console.log('Form Data Submitted:', formData);
-    
-    // TODO: Send 'formData' to your Backend API here using fetch()
-    
-    // 2. NAVIGATE HERE: Only navigate AFTER successful submission
-    navigate('/uploaddocs');
+    // --- CHANGE: Pass data to the next page via 'state' ---
+    navigate('/uploaddocs', { state: { formData } });
   };
 
   return (

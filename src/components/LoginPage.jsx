@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get the login function
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ export default function LoginPage() {
     try {
       const resp = await fetch('http://localhost:3001/api/auth/login', {
         method: 'POST',
-        credentials : 'include',
+        credentials: 'include',
         headers: { 
           'Content-Type': 'application/json' 
         },
@@ -23,8 +25,7 @@ export default function LoginPage() {
             password 
           }
         ),
-      }
-    );
+      });
 
       const data = await resp.json();
       const { user } = data;
@@ -35,7 +36,12 @@ export default function LoginPage() {
         setLoading(false);
         return;
       }
-      else{        
+      else {        
+        // --- FIX STARTS HERE ---
+        // We manually update the global state so ProtectedRoute knows we are in.
+        login(user); 
+        // --- FIX ENDS HERE ---
+
         if (user.role === "admin"){
           navigate('/admin-dashboard')
         }

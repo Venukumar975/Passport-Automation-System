@@ -1,26 +1,68 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom"; // Added imports
 import Header from "./Header.jsx";
 import ProgressBar from "./ProgressBar.jsx";
 import DocsHeader from "./DocsHeader.jsx";
 
-
 const ReviewApplication = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Hook to get data
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Mock data matching your screenshot (In a real app, verify this from Context/State)
-  const formData = {
-    fullName: "abcdefgh ijklmnop",
-    dob: "21/11/2025",
-    address: "kvsd skf d, sk\nlksdkd $ ldm vda",
-    photoName: "activity-diagram-passport-automation-sys.png",
-    docName: "DecisionTree.pdf"
+  // --- CHANGE: Retrieve data passed from previous steps ---
+  const { formData, files } = location.state || { formData: {}, files: {} };
+
+  // Setup display data (fallback to "N/A" if data is missing)
+  const displayData = {
+    fullName: formData.fullName || "N/A",
+    dob: formData.dob || "N/A",
+    address: formData.address || "N/A",
+    photoName: files.passportPhoto ? files.passportPhoto.name : "Not Uploaded",
+    docName: files.supportingDocs ? files.supportingDocs.name : "Not Uploaded"
   };
 
-  const handleSubmit = () => {
-    console.log("Application Submitted!");
-    // Navigate to success page or dashboard
-    // navigate('/success'); 
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
+    // 1. Create FormData object (required for sending files)
+    const payload = new FormData();
+    payload.append('fullName', formData.fullName);
+    payload.append('dob', formData.dob);
+    payload.append('address', formData.address);
+    payload.append('applicationType', formData.applicationType); // Included type
+    
+    // Append files if they exist
+    if (files.passportPhoto) {
+        payload.append('passportPhoto', files.passportPhoto);
+    }
+    if (files.supportingDocs) {
+        payload.append('supportingDoc', files.supportingDocs);
+    }
+
+    try {
+        // 2. Send to Backend
+        // Make sure the URL matches your server port (3001)
+        const response = await fetch('http://localhost:3001/api/applications/submit', {
+            method: 'POST',
+            credentials: 'include', // Important: Sends the Session Cookie
+            body: payload // Browser automatically sets Content-Type for FormData
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Application Submitted Successfully!");
+            navigate('/applications'); // Go to Dashboard
+        } else {
+            alert("Failed: " + (result.error || result.message));
+        }
+
+    } catch (error) {
+        console.error("Submission error:", error);
+        alert("Server Error. Please try again.");
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (
@@ -29,12 +71,10 @@ const ReviewApplication = () => {
       <div className="page-container">
         <div className="content-wrapper">
           <DocsHeader/>
-          {/* Step 3 of 3 */}
           <ProgressBar progress={100} />
 
           <main className="review-wrapper">
             
-            {/* Page Title */}
             <div className="section-header">
               <h1>Review & Submit</h1>
               <p>Please review all information before submitting</p>
@@ -42,39 +82,36 @@ const ReviewApplication = () => {
 
             <div className="review-content">
               
-              {/* Personal Details Section */}
               <div className="review-group">
                 <label>FULL NAME</label>
-                <div className="review-value">{formData.fullName}</div>
+                <div className="review-value">{displayData.fullName}</div>
               </div>
 
               <div className="review-group">
                 <label>DATE OF BIRTH</label>
-                <div className="review-value">{formData.dob}</div>
+                <div className="review-value">{displayData.dob}</div>
               </div>
 
               <div className="review-group">
                 <label>PERMANENT ADDRESS</label>
-                <div className="review-value address-text">{formData.address}</div>
+                <div className="review-value address-text">{displayData.address}</div>
               </div>
 
-              {/* Documents Section */}
               <div className="review-group">
                 <label>DOCUMENTS</label>
                 <div className="review-value doc-list">
-                  <p><span className="doc-label">Photo:</span> {formData.photoName}</p>
-                  <p><span className="doc-label">Supporting Document:</span> {formData.docName}</p>
+                  <p><span className="doc-label">Photo:</span> {displayData.photoName}</p>
+                  <p><span className="doc-label">Supporting Document:</span> {displayData.docName}</p>
                 </div>
               </div>
 
             </div>
 
-            {/* Action Buttons */}
             <div className="form-actions">
               <button
                 type="button"
                 className="btn-tertiary"
-                onClick={() => navigate('/uploaddocs')} // Go back to Step 2
+                onClick={() => navigate('/uploaddocs', { state: { formData } })} // Pass state back if they go back
               >
                 Previous
               </button>
@@ -83,8 +120,9 @@ const ReviewApplication = () => {
                 type="button"
                 className="btn-primary submit-btn"
                 onClick={handleSubmit}
+                disabled={isSubmitting}
               >
-                <span className="submit-icon">➤</span> Submit Application
+                <span className="submit-icon">➤</span> {isSubmitting ? "Submitting..." : "Submit Application"}
               </button>
             </div>
 

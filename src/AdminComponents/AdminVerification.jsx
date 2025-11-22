@@ -3,14 +3,20 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const AdminVerification = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // URL param (e.g., 4)
+  const { id } = useParams();
 
   const [applicationData, setApplicationData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [adminComment, setAdminComment] = useState("");
-  const [status, setStatus] = useState("PENDING"); // UI Status state
+  const [status, setStatus] = useState("PENDING");
 
-  // 1. FETCH DATA FROM DB
+  // --- HELPER: Fixes File Paths (Windows \ -> URL /) ---
+  const getFileUrl = (path) => {
+    if (!path) return null;
+    const cleanPath = path.replace(/\\/g, "/"); 
+    return `http://localhost:3001/${cleanPath}`; 
+  };
+
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -19,21 +25,16 @@ const AdminVerification = () => {
         
         const data = await response.json();
 
-        // 2. CONVERT DB DATA TO UI STRUCTURE
-        // We construct the 'documents' array dynamically based on what files exist
+        // 1. EXTRACT PHOTO
+        const photoUrl = getFileUrl(data.photo_file_path);
+
+        // 2. EXTRACT DOCUMENTS (Excluding photo)
         const docs = [];
-        if (data.photo_file_path) {
-            docs.push({ 
-                name: "passport_photo.jpg", // You can extract real name if you want
-                type: "Applicant Photo", 
-                path: data.photo_file_path 
-            });
-        }
         if (data.pdf_file_path) {
             docs.push({ 
-                name: "supporting_docs.pdf", 
-                type: "Supporting Document", 
-                path: data.pdf_file_path 
+                name: "Supporting Document", 
+                type: "PDF / Document", 
+                path: getFileUrl(data.pdf_file_path)
             });
         }
 
@@ -43,12 +44,13 @@ const AdminVerification = () => {
             dob: new Date(data.date_of_birth).toLocaleDateString("en-GB"),
             email: data.email,
             address: data.permanent_address,
-            documents: docs,
-            dbStatus: data.application_status // Keep track of real DB status
+            photo: photoUrl, // Store photo separately
+            documents: docs, // Store other docs list
+            dbStatus: data.application_status
         };
 
         setApplicationData(formattedData);
-        setStatus(data.application_status); // Set initial status
+        setStatus(data.application_status);
         if (data.admin_remarks) setAdminComment(data.admin_remarks);
 
       } catch (error) {
@@ -61,17 +63,13 @@ const AdminVerification = () => {
     fetchDetails();
   }, [id]);
 
-  // 3. HANDLE ACTIONS (APPROVE / REJECT)
   const handleAction = async (decision) => {
-    // decision = "VERIFIED" (Approved) or "REJECTED"
-    
     if (decision === "REJECTED" && !adminComment.trim()) {
         alert("Please provide a rejection reason in the comments.");
         return;
     }
 
     try {
-        // Determine Endpoint
         const endpoint = decision === "VERIFIED" 
             ? 'http://localhost:3001/api/applications/approve' 
             : 'http://localhost:3001/api/applications/reject';
@@ -101,109 +99,164 @@ const AdminVerification = () => {
   if (!applicationData) return <div style={{padding:40, textAlign:'center'}}>Application not found</div>;
 
   return (
-    <>
-      <div className="page-container admin-container">
-        <div className="content-wrapper admin-wrapper">
+    <div className="page-container admin-container">
+      <div className="content-wrapper admin-wrapper">
+        
+        {/* Top Navigation */}
+        <button className="back-link" onClick={() => navigate('/admin-dashboard')}>
+          ← Back to Dashboard
+        </button>
+
+        <div className="verification-header">
+          <div>
+            <h1>Application Verification</h1>
+            <p className="app-id-display">Application ID: {applicationData.id}</p>
+          </div>
+          <div className={`status-tag ${status.toLowerCase()}`}>{status}</div>
+        </div>
+
+        <div className="admin-grid-layout">
           
-          {/* Top Navigation */}
-          <button className="back-link" onClick={() => navigate('/admin-dashboard')}>
-            ← Back to Dashboard
-          </button>
-
-          <div className="verification-header">
-            <div>
-              <h1>Application Verification</h1>
-              <p className="app-id-display">Application ID: {applicationData.id}</p>
-            </div>
-            {/* Dynamic Status Class */}
-            <div className={`status-tag ${status.toLowerCase()}`}>{status}</div>
-          </div>
-
-          <div className="admin-grid-layout">
+          {/* LEFT COLUMN: Applicant Details */}
+          <div className="admin-card details-card">
+            <h2>Applicant Details</h2>
             
-            {/* LEFT COLUMN: Applicant Details */}
-            <div className="admin-card details-card">
-              <h2>Applicant Details</h2>
+            <div className="detail-row">
+              <label>Full Name</label>
+              <p>{applicationData.fullName}</p>
+            </div>
+            <div className="detail-row">
+              <label>Date of Birth</label>
+              <p>{applicationData.dob}</p>
+            </div>
+            <div className="detail-row">
+              <label>Email</label>
+              <p>{applicationData.email}</p>
+            </div>
+            <div className="detail-row">
+              <label>Permanent Address</label>
+              <p className="address-block">{applicationData.address}</p>
+            </div>
+
+            {/* Admin Actions Section */}
+            <div className="admin-actions-section">
+              <h3>Admin Decision</h3>
+              <textarea 
+                placeholder="Add comments or rejection reason..." 
+                value={adminComment}
+                onChange={(e) => setAdminComment(e.target.value)}
+                className="admin-comment-box"
+              ></textarea>
               
-              <div className="detail-row">
-                <label>Full Name</label>
-                <p>{applicationData.fullName}</p>
-              </div>
-              <div className="detail-row">
-                <label>Date of Birth</label>
-                <p>{applicationData.dob}</p>
-              </div>
-              <div className="detail-row">
-                <label>Email</label>
-                <p>{applicationData.email}</p>
-              </div>
-              <div className="detail-row">
-                <label>Permanent Address</label>
-                <p className="address-block">{applicationData.address}</p>
-              </div>
-
-              {/* Admin Actions Section */}
-              <div className="admin-actions-section">
-                <h3>Admin Decision</h3>
-                <textarea 
-                  placeholder="Add comments or rejection reason..." 
-                  value={adminComment}
-                  onChange={(e) => setAdminComment(e.target.value)}
-                  className="admin-comment-box"
-                ></textarea>
-                
-                <div className="decision-buttons">
-                  <button 
-                    className="btn-reject" 
-                    onClick={() => handleAction("REJECTED")}
-                  >
-                    Reject Application
-                  </button>
-                  <button 
-                    className="btn-approve" 
-                    onClick={() => handleAction("VERIFIED")}
-                  >
-                    Approve & Verify
-                  </button>
-                </div>
+              <div className="decision-buttons">
+                <button 
+                  className="btn-reject" 
+                  onClick={() => handleAction("REJECTED")}
+                >
+                  Reject Application
+                </button>
+                <button 
+                  className="btn-approve" 
+                  onClick={() => handleAction("VERIFIED")}
+                >
+                  Approve & Verify
+                </button>
               </div>
             </div>
-
-            {/* RIGHT COLUMN: Documents */}
-            <div className="admin-card documents-card">
-              <h2>Submitted Documents</h2>
-              <div className="doc-grid">
-                {applicationData.documents.length === 0 && <p style={{color:'#888', fontStyle:'italic'}}>No documents uploaded.</p>}
-                
-                {applicationData.documents.map((doc, index) => (
-                  <div key={index} className="doc-preview-item">
-                    <div className="doc-icon-placeholder">
-                      {doc.name.endsWith('pdf') ? '📄' : '🖼️'}
-                    </div>
-                    <div className="doc-info">
-                      <span className="doc-type">{doc.type}</span>
-                      <span className="doc-name">{doc.name}</span>
-                      
-                      {/* View Button opens the real file URL */}
-                      <a 
-                        href={doc.path} 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="btn-view-doc"
-                        style={{textDecoration:'none', display:'inline-block', textAlign:'center'}}
-                      >
-                        View Document
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
+
+          {/* RIGHT COLUMN: Documents */}
+          <div className="admin-card documents-card">
+            <h2>Submitted Documents</h2>
+            
+            <div className="doc-grid" style={{display: 'flex', flexDirection: 'column', gap: '20px'}}>
+                
+                {/* 1. APPLICANT PHOTO SECTION (Static, Not Clickable) */}
+                <div style={{
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center',
+                    paddingBottom: '20px',
+                    borderBottom: '1px solid #eee'
+                }}>
+                    <div style={{
+                        width: '150px',
+                        height: '200px',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                        backgroundColor: '#f0f0f0',
+                        marginBottom: '10px'
+                    }}>
+                        {applicationData.photo ? (
+                            <img 
+                                src={applicationData.photo} 
+                                alt="Applicant" 
+                                style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                            />
+                        ) : (
+                            <div style={{width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', color:'#999'}}>
+                                No Photo
+                            </div>
+                        )}
+                    </div>
+                    <span style={{fontWeight: 'bold', color: '#555'}}>Applicant Photo</span>
+                </div>
+
+                {/* 2. SUPPORTING DOCUMENTS LIST (Clickable) */}
+                <div>
+                    <h3 style={{fontSize: '1rem', marginBottom: '10px', color: '#444'}}>Documents</h3>
+                    
+                    {applicationData.documents.length === 0 && (
+                        <p style={{color:'#888', fontStyle:'italic'}}>No supporting documents.</p>
+                    )}
+
+                    {applicationData.documents.map((doc, index) => (
+                        <div key={index} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            padding: '12px',
+                            backgroundColor: '#f9f9f9',
+                            borderRadius: '6px',
+                            border: '1px solid #eee',
+                            marginBottom: '10px'
+                        }}>
+                            <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                                <span style={{fontSize: '1.5rem'}}>📄</span>
+                                <div>
+                                    <div style={{fontWeight:'600', fontSize:'0.9rem'}}>{doc.name}</div>
+                                    <div style={{fontSize:'0.8rem', color:'#666'}}>{doc.type}</div>
+                                </div>
+                            </div>
+                            
+                            <a 
+                                href={doc.path} 
+                                target="_blank" 
+                                rel="noreferrer"
+                                style={{
+                                    backgroundColor: '#fff',
+                                    border: '1px solid #ddd',
+                                    padding: '5px 10px',
+                                    borderRadius: '4px',
+                                    textDecoration: 'none',
+                                    fontSize: '0.85rem',
+                                    color: '#333',
+                                    fontWeight: '500'
+                                }}
+                            >
+                                View Document ↗
+                            </a>
+                        </div>
+                    ))}
+                </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
