@@ -32,7 +32,7 @@
   text-transform: uppercase;
 }
 .status-tag.pending { background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; }
-.status-tag.verified, .status-tag.approved { background: #ecfdf5; color: #059669; border: 1px solid #6ee7b7; }
+.status-tag.verified { background: #ecfdf5; color: #059669; border: 1px solid #6ee7b7; }
 .status-tag.rejected { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
 
 /* Main Layout: 2 Columns */
@@ -124,6 +124,4 @@
   padding: 4px 8px;
   border-radius: 4px;
   cursor: pointer;
-  color: #374151;
 }
-.btn-view-doc:hover { background-color: #f3f4f6; }

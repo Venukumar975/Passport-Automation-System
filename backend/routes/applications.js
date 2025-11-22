@@ -67,7 +67,8 @@ router.get('/admin/all-applications', async (req, res) => {
                 application_type, 
                 application_status, 
                 submitted_at 
-            FROM applications 
+            FROM applications
+            WHERE is_draft = false
             ORDER BY submitted_at DESC
         `;
         
@@ -79,38 +80,35 @@ router.get('/admin/all-applications', async (req, res) => {
     }
 });
 
-// GET /api/applications/admin/view/:id
-// Fetch Single Application Details for Verification
+// 1. GET Single Application Details
 router.get('/admin/view/:id', async (req, res) => {
-    const { id } = req.params;
-
     try {
         const query = `
-            SELECT 
-                application_id, 
-                full_name, 
-                date_of_birth, 
-                permanent_address, 
-                application_status, 
-                application_type, -- We added this column earlier
-                photo_file_path, 
-                pdf_file_path,
-                email -- We join with users table to get email
-            FROM applications 
-            JOIN users ON applications.user_id = users.id
-            WHERE application_id = ?
-        `;
+            SELECT a.*, u.email 
+            FROM applications a
+            JOIN users u ON a.user_id = u.id
+            WHERE a.application_id = ?`;
+            
+        const [rows] = await db.query(query, [req.params.id]);
         
-        const [rows] = await db.query(query, [id]);
-
-        if (rows.length === 0) {
-            return res.status(404).json({ error: "Application not found" });
-        }
-
+        if (rows.length === 0) return res.status(404).json({ error: "Not found" });
         res.json(rows[0]);
     } catch (error) {
-        console.error("Error fetching application:", error);
         res.status(500).json({ error: "Database error" });
+    }
+});
+
+// 2. POST Reject Application
+router.post('/reject', async (req, res) => {
+    const { applicationId, remarks } = req.body;
+    try {
+        await db.query(
+            `UPDATE applications SET application_status = 'Rejected', admin_remarks = ? WHERE application_id = ?`,
+            [remarks, applicationId]
+        );
+        res.json({ message: "Rejected successfully" });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to reject" });
     }
 });
 
