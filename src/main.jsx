@@ -11,8 +11,11 @@ import '../styles/progressbar.css';
 import '../styles/uploaddocs.css'
 import '../styles/reviewapplication.css'
 import '../styles/userdropdown.css'
+
+
 import '../styles/admindashboard.css';
 import '../styles/adminverification.css';
+import '../styles/adminheader.css'
 
 const root = createRoot(document.getElementById('root'))
 root.render(

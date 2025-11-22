@@ -1,0 +1,148 @@
+/* frontend/src/components/AdminHeader.css */
+
+:root {
+    --admin-primary: #4f46e5; /* Professional Indigo */
+    --admin-text: #1f2937;
+    --admin-bg: #ffffff;
+    --admin-border: #e5e7eb;
+}
+
+.app-header.admin-mode {
+    background: var(--admin-bg);
+    border-bottom: 1px solid var(--admin-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Subtle shadow depth */
+    padding: 0 32px;
+    height: 70px; /* Fixed sleek height */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* --- LEFT SIDE: LOGO --- */
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--admin-primary); /* Indigo Shield */
+}
+
+.brand-titles {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.brand-main {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--admin-text);
+    letter-spacing: -0.02em;
+}
+
+.brand-sub {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+/* --- RIGHT SIDE: ACTIONS --- */
+.admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Notification Bell (Visual Flair) */
+.icon-btn {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background-color: #f3f4f6;
+    color: var(--admin-primary);
+}
+
+/* The Profile Divider */
+.divider-vertical {
+    width: 1px;
+    height: 24px;
+    background-color: var(--admin-border);
+}
+
+/* Admin Profile Section */
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-initial {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%); /* Professional Gradient */
+    color: white;
+    border-radius: 8px; /* Rounded square is more modern than circle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+.admin-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.admin-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--admin-text);
+}
+
+.admin-role {
+    font-size: 0.75rem;
+    color: #10b981; /* Green for 'Online' status feel */
+    font-weight: 500;
+}
+
+/* Logout Icon Button */
+.logout-icon-btn {
+    margin-left: 8px;
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-icon-btn:hover {
+    background: #ef4444;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(239, 68, 68, 0.3);
+}

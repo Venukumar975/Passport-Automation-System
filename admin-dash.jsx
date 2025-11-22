@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AdminHeader from "./AdminHeader.jsx"; // <--- 1. Import the new Header
+{/*import Header from "./Header.jsx";*/}
 
 const MOCK_DATA = [
   { id: "APP-2025-001", name: "John Doe", date: "2025-11-20", status: "PENDING", type: "New Passport" },
@@ -9,17 +9,19 @@ const MOCK_DATA = [
   { id: "APP-2025-004", name: "Emily Davis", date: "2025-11-20", status: "PENDING", type: "Address Change" },
 ];
 
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("ALL");
-
   // Filter logic
   const filteredApps = MOCK_DATA.filter((app) => {
     const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) || app.id.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filter === "ALL" || app.status === filter;
     return matchesSearch && matchesFilter;
   });
+
+
 
   // Stats calculation
   const stats = {
@@ -29,19 +31,19 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="app-page">
-      {/* 2. Use the Header Component here */}
-      <AdminHeader />
-
+    <>
+      {/*<Header userName="Admin Portal" />*/}
       <div className="page-container admin-container">
         <div className="content-wrapper admin-wrapper">
           
-          {/* 3. I removed the old <div className="admin-header"> with the logout button 
-                 because it is now inside AdminHeader. 
-                 I kept just the Title for the content area. */}
-          <div className="dashboard-title-section" style={{ marginBottom: '20px' }}>
-             <h1>Dashboard Overview</h1>
-             <p style={{ color: '#6b7280' }}>Manage and verify citizen applications</p>
+          <div className="admin-header">
+            <div className="sub-header">
+                <h1>Dashboard</h1>
+                <button id = "logout-btn" onClick={()=>{navigate('/')}}>
+                  Logout
+                </button>
+            </div>
+            <p>Manage and verify citizen applications</p>
           </div>
 
           {/* Stats Cards */}
@@ -124,7 +126,7 @@ const AdminDashboard = () => {
 
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
