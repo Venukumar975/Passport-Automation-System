@@ -244,25 +244,62 @@ body {
 /* --------------------------------------------------
    7) Badges
    -------------------------------------------------- */
-.badge { padding: 6px 10px; border-radius: 999px; font-size: 12px; }
-.badge.gray { background: rgba(0,0,0,0.06); }
-.badge.purple { background: var(--purple); color: white; }
-.badge.green { background: var(--success); color: rgba(0,0,0,0.9); }
-.badge.blue { background: #60a5fa; color: white; }
-.badge.red { background: var(--danger); color: white; }
+/* --------------------------------------------------
+   7) Badges
+   -------------------------------------------------- */
+.badge { 
+  padding: 6px 12px; 
+  border-radius: 10px; 
+  font-size: 11px; 
+  font-weight: 700;
+  color: white; /* Default text color to white for solid badges */
+  letter-spacing: 0.5px;
+}
 
+/* DRAFT -> Blue */
+.badge.draft { 
+  background: grey; /* Bright Blue */
+}
+
+/* PENDING -> Golden Yellow */
+.badge.pending { 
+  background: #f59e0b; /* Golden Yellow */
+}
+
+/* APPROVED / VERIFIED -> Green */
+.badge.approved,
+.badge.verified { 
+  background: var(--success); 
+}
+
+/* REJECTED -> Red */
+.badge.rejected { 
+  background: var(--danger); 
+}
 
 /* --------------------------------------------------
    8) Responsive
    -------------------------------------------------- */
 @media (max-width: 1000px) {
-  .cards-grid { grid-template-columns: repeat(2, 1fr); }
-  .title-block h1 { font-size: 28px; }
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  .title-block h1 { 
+    font-size: 28px;
+   }
 }
 
 @media (max-width: 640px) {
-  .cards-grid { grid-template-columns: 1fr; }
-  .actions-block { width: 100%; display: flex; justify-content: space-between; }
-  .search { min-width: 120px; }
+  .cards-grid { 
+    grid-template-columns: 1fr;
+   }
+  .actions-block {
+     width: 100%;
+     display: flex;
+     justify-content: space-between; 
+    }
+  .search { 
+    min-width: 120px; 
+  }
 }
 
