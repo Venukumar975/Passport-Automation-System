@@ -176,4 +176,36 @@ router.post('/reject', async (req, res) => {
     }
 });
 
+
+// --- ADD THIS TO applications.js ---
+
+// GET Single Application for the Logged-in User
+router.get('/:id', async (req, res) => {
+    // 1. Check Session
+    if (!req.session || !req.session.user) {
+        return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const appId = req.params.id;
+    const userId = req.session.user.id;
+
+    try {
+        // 2. Fetch only if user_id matches the session user_id
+        const query = `
+            SELECT * FROM applications 
+            WHERE application_id = ? AND user_id = ?
+        `;
+        const [rows] = await db.query(query, [appId, userId]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "Application not found or access denied" });
+        }
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error("Error fetching application:", error);
+        res.status(500).json({ error: "Database error" });
+    }
+});
+
 export default router;

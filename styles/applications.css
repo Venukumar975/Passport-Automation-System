@@ -1,22 +1,7 @@
-/*
-  applications.css
-  Clean, structured stylesheet for the Applications index page.
-  Sections:
-    1. Variables (theme tokens)
-    2. Base / utility rules
-    3. Header / brand
-    4. Layout / containers
-    5. Controls (search, buttons, tabs)
-    6. Cards (application items)
-    7. Badges
-    8. Responsive rules
-*/
-
 /* --------------------------------------------------
    1) Theme variables
    -------------------------------------------------- */
 :root {
-  /* Light theme tokens */
   --bg: whitesmoke;
   --text: #111827;
   --muted: #6b7280;
@@ -30,7 +15,6 @@
 }
 
 :root.dark {
-  /* Dark theme overrides */
   --bg: #0b1220;
   --text: #e6eef8;
   --muted: #9aa9bf;
@@ -43,21 +27,13 @@
   --border: rgba(255,255,255,0.06);
 }
 
-
-/* --------------------------------------------------
-   2) Base / utilities
-   -------------------------------------------------- */
 * { box-sizing: border-box; }
-html, body { 
-    height: 100%; 
-}
+html, body { height: 100%; }
 body {
   margin: 0;
   font-family: "Inter", sans-serif !important;
   color: var(--text);
   background: var(--bg);
-  -webkit-font-smoothing: antialiased;
-
 }
 
 .container {
@@ -66,11 +42,7 @@ body {
   padding: 0 16px;
 }
 
-
-/* --------------------------------------------------
-   3) Header / brand
-   -------------------------------------------------- */
-
+/* HEADER */
 .app-header {
   display: flex;
   justify-content: space-between;
@@ -79,11 +51,7 @@ body {
   border-bottom: 3px solid var(--border);
 }
 
-.brand {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
+.brand { display: flex; gap: 12px; align-items: center; }
 
 .logo {
   width: 80px;
@@ -94,17 +62,15 @@ body {
   display: grid;
   place-items: center;
   font-weight: 700;
-  border-radius: 8px;
-  border : 2px solid grey;
-  box-shadow: 0px 10px 30px rgba(9, 9, 9, 0.08);
+  border: 2px solid grey;
 }
+
 .logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   border-radius: 8px;
 }
-
 
 .brand-text .name { font-weight: 700; }
 .brand-text .subtitle { font-size: 12px; color: var(--muted); }
@@ -117,16 +83,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
 }
+
 .user-pill {
   padding: 8px 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
 }
 
-
-/* --------------------------------------------------
-   4) Layout / page header
-   -------------------------------------------------- */
+/* TOP BLOCK */
 .top-row {
   display: flex;
   justify-content: space-between;
@@ -142,10 +106,7 @@ body {
 
 .subtitle { color: var(--muted); margin-top: 6px; }
 
-
-/* --------------------------------------------------
-   5) Controls (search, buttons, tabs)
-   -------------------------------------------------- */
+/* SEARCH + BUTTONS */
 .actions-block { display: flex; gap: 10px; align-items: center; }
 
 .search {
@@ -162,37 +123,39 @@ body {
   border: 0;
   cursor: pointer;
 }
-.btn.primary { 
-  background: var(--primary); 
-  color: #fff; 
-  border : 2px solid black;
-}
-.btn.outline { background: transparent; border: 1px solid var(--border); }
 
+.btn.primary { 
+  background: var(--primary);
+  color: #fff;
+  border: 2px solid black;
+}
+
+.btn.outline { 
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+/* TABS */
 .tabs {
-  position: relative;           
   display: flex;
   gap: 10px;
   margin: 20px 0;
   padding: 0;
-  border-radius: 6px;
   font-size: large;
   font-weight: bold;
-  background: var(--card);       /* light card background */
-  box-shadow: 10px 0px 20px rgb(164, 156, 156); /* subtle shadow */
-     
+  background: var(--card);
+  box-shadow: 10px 0px 20px rgb(164, 156, 156);
 }
 
 .tabs button {
-  flex: 1;                       
+  flex: 1;
   padding: 10px 14px;
   border-radius: 8px;
   border: 3px solid transparent;
-  background: transparent;       
+  background: transparent;
   cursor: pointer;
-  color: #3c3737;                
-  position: relative;
-  transition: all 0.3s ease;   /* includes color, bg, border transitions */
+  color: #3c3737;
+  transition: all 0.3s ease;
 }
 
 .tabs button.active {
@@ -201,20 +164,7 @@ body {
   border-color: rgb(69, 67, 67);
 }
 
-.tab-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 4px;
-  background: var(--primary);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-/* --------------------------------------------------
-   6) Cards (application items)
-   -------------------------------------------------- */
+/* CARDS */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -229,85 +179,70 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0px 0px 20px rgb(22, 22, 22);
+  box-shadow: 0 0 20px rgb(22,22,22);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.app-card:hover{
- transform: scale(1.03);
- box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
- cursor: pointer;
 
+.app-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  cursor: pointer;
 }
 
-.card-top { display: flex; justify-content: space-between; align-items: center; }
-.doc-ico { font-size: 20px; }
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-.app-id { margin: 0; font-size: 15px; color: var(--muted); }
-.label { font-size: 12px; color: var(--muted); letter-spacing: 0.6px; }
+.app-id { 
+  margin: 0; 
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.label { font-size: 12px; color: var(--muted); }
 .applicant { font-weight: 600; font-size: 18px; }
 .meta { color: var(--muted); font-size: 13px; }
 .card-actions { display: flex; gap: 10px; margin-top: 8px; }
 
-
-/* --------------------------------------------------
-   7) Badges
-   -------------------------------------------------- */
-/* --------------------------------------------------
-   7) Badges
-   -------------------------------------------------- */
-.badge { 
-  padding: 6px 12px; 
-  border-radius: 10px; 
-  font-size: 11px; 
+/* BADGES FIXED */
+.badge {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 11px;
   font-weight: 700;
-  color: white; /* Default text color to white for solid badges */
-  letter-spacing: 0.5px;
+  color: white;
 }
 
-/* DRAFT -> Blue */
-.badge.draft { 
-  background: grey; /* Bright Blue */
-}
+/* DRAFT */
+.badge.draft { background: grey; }
 
-/* PENDING -> Golden Yellow */
-.badge.pending { 
-  background: #f59e0b; /* Golden Yellow */
-}
+/* PENDING */
+.badge.pending { background: #f59e0b; }
 
-/* APPROVED / VERIFIED -> Green */
+/* APPROVED / VERIFIED */
 .badge.approved,
-.badge.verified { 
-  background: var(--success); 
-}
+.badge.verified { background: var(--success); }
 
-/* REJECTED -> Red */
-.badge.rejected { 
-  background: var(--danger); 
-}
+/* REJECTED */
+.badge.rejected { background: var(--danger); }
 
-/* --------------------------------------------------
-   8) Responsive
-   -------------------------------------------------- */
+/* RESPONSIVE */
 @media (max-width: 1000px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr); 
-  }
-  .title-block h1 { 
-    font-size: 28px;
-   }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .title-block h1 { font-size: 28px; }
 }
 
 @media (max-width: 640px) {
-  .cards-grid { 
-    grid-template-columns: 1fr;
-   }
-  .actions-block {
-     width: 100%;
-     display: flex;
-     justify-content: space-between; 
-    }
-  .search { 
-    min-width: 120px; 
-  }
+  .cards-grid { grid-template-columns: 1fr; }
+  .actions-block { width: 100%; justify-content: space-between; }
+  .search { min-width: 120px; }
 }
-
+.apps-scroll-box {
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--card);
+}

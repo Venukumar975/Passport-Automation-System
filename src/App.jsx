@@ -11,6 +11,7 @@ import UploadDocs from './components/UploadDocuments.jsx';
 import ReviewApplication from './components/ReviewApplication.jsx';
 import AdminDashboard from './AdminComponents/AdminDashboard.jsx';
 import AdminVerification from './AdminComponents/AdminVerification.jsx';
+import ViewApplication from './components/ViewApplication.jsx';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           {/* User Protected Routes */}
           <Route element={<ProtectedRoute />}>
              <Route path="/applications" element={<UserDashboard />} />
+             <Route path="/application/:id" element={<ViewApplication />} />
              <Route path="/newapplication" element={<NewApplication />} />
              <Route path="/uploaddocs" element={<UploadDocs />} />
              <Route path="/reviewapplication" element={<ReviewApplication />} />
